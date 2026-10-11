@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ / สมัครสมาชิก - Termsook Local</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --border: #1e293b;
+            --input-bg: #0b0f19;
+            --card-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #e2e8f0;
+            --card-bg: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --primary: #d97706;
+            --primary-hover: #b45309;
+            --border: #cbd5e1;
+            --input-bg: #ffffff;
+            --card-shadow: 0 15px 35px rgba(148, 163, 184, 0.35);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; }
+
+        .auth-top-controls { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
+        .auth-control-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); padding: 6px 14px; border-radius: 50px; cursor: pointer; font-size: 13px; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+        .auth-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 40px; width: 100%; max-width: 420px; box-shadow: var(--card-shadow); text-align: center; }
+        .auth-logo-img { height: 90px; width: auto; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3)); }
+        .auth-subtitle { font-size: 14px; color: var(--text-sub); margin-bottom: 25px; }
+
+        .tab-group { display: flex; background: var(--input-bg); padding: 4px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-sub); font-size: 14px; font-weight: 600; cursor: pointer; border-radius: 8px; }
+        .tab-btn.active { background: var(--card-bg); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+        .form-group { text-align: left; margin-bottom: 18px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+        input, select { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--input-bg); color: var(--text-main); outline: none; font-size: 14px; }
+        input:focus, select:focus { border-color: var(--primary); }
+
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 10px; font-size: 15px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+        .back-home { display: inline-block; margin-top: 20px; color: var(--text-sub); text-decoration: none; font-size: 13px; }
+        .back-home:hover { color: var(--primary); }
+
+        .swal2-popup { background: #131b2e !important; color: #f8fafc !important; border-radius: 20px !important; }
+        [data-theme="light"] .swal2-popup { background: #ffffff !important; color: #0f172a !important; }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="auth-top-controls">
+        <button class="auth-control-btn" id="langToggle">🌐 <span>EN</span></button>
+        <button class="auth-control-btn" id="themeToggle">☀️ <span>Light</span></button>
+    </div>
+
+    <div class="auth-card">
+        <a href="index.html">
+            <img src="rogo_termsook-removebg-preview.png" alt="Termsook Local Logo" class="auth-logo-img">
+        </a>
+        <p class="auth-subtitle" data-i18n="auth_subtitle">ระบบเข้าสู่ระบบเพื่อใช้งานแพลตฟอร์ม</p>
+
+        <div class="tab-group">
+            <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')" data-i18n="tab_login">เข้าสู่ระบบ</button>
+            <button class="tab-btn" id="tabRegister" onclick="switchTab('register')" data-i18n="tab_register">สมัครสมาชิก</button>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label data-i18n="label_email">อีเมล (Email)</label>
+                <input type="email" id="loginEmail" placeholder="yourname@example.com" required>
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_password">รหัสผ่าน (Password)</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-submit" data-i18n="btn_login">🔑 เข้าสู่ระบบ</button>
+        </form>
+
+        <form id="registerForm" style="display: none;">
+            <div class="form-group">
+                <label data-i18n="label_role">ประเภทบัญชีใช้งาน</label>
+                <select id="regRole">
+                    <option value="tourist" data-i18n="role_tourist">🧳 นักท่องเที่ยว (Tourist)</option>
+                    <option value="merchant" data-i18n="role_merchant">🏪 พ่อค้าแม่ค้า / เจ้าของร้านค้า (Merchant)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_email">อีเมล (Email)</label>
+                <input type="email" id="regEmail" placeholder="yourname@example.com" required>
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_password">รหัสผ่าน (Password)</label>
+                <input type="password" id="regPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6">
+            </div>
+            <button type="submit" class="btn-submit" data-i18n="btn_register">✨ สมัครสมาชิกเลย</button>
+        </form>
+
+        <a href="index.html" class="back-home" data-i18n="back_home">← กลับไปหน้าหลัก (Home)</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDQEnrTsUwLclMAIFNmjjmP-W3GwmxAwfg",
+          authDomain: "termsook-local.firebaseapp.com",
+          projectId: "termsook-local",
+          storageBucket: "termsook-local.firebasestorage.app",
+          messagingSenderId: "391909981716",
+          appId: "1:391909981716:web:919d5cb4b8bad052037101"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const i18nDict = {
+            th: { auth_subtitle: "ระบบเข้าสู่ระบบเพื่อใช้งานแพลตฟอร์ม", tab_login: "เข้าสู่ระบบ", tab_register: "สมัครสมาชิก", label_email: "อีเมล (Email)", label_password: "รหัสผ่าน (Password)", label_role: "ประเภทบัญชีใช้งาน", role_tourist: "🧳 นักท่องเที่ยว (Tourist)", role_merchant: "🏪 พ่อค้าแม่ค้า / เจ้าของร้านค้า (Merchant)", btn_login: "🔑 เข้าสู่ระบบ", btn_register: "✨ สมัครสมาชิกเลย", back_home: "← กลับไปหน้าหลัก (Home)" },
+            en: { auth_subtitle: "Sign in to access Termsook Local platform", tab_login: "Sign In", tab_register: "Register", label_email: "Email Address", label_password: "Password", label_role: "Account Type", role_tourist: "🧳 Tourist", role_merchant: "🏪 Merchant / Shop Owner", btn_login: "🔑 Sign In", btn_register: "✨ Register Now", back_home: "← Back to Home" }
+        };
+
+        let currentLang = 'th';
+        function applyLanguage(lang) {
+            currentLang = lang;
+            const dict = i18nDict[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+            document.getElementById('langToggle').querySelector('span').textContent = lang === 'th' ? 'EN' : 'TH';
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => applyLanguage(currentLang === 'th' ? 'en' : 'th'));
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const body = document.body;
+            const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', next);
+            document.getElementById('themeToggle').querySelector('span').textContent = next === 'dark' ? 'Light' : 'Dark';
+        });
+
+        window.switchTab = function(mode) {
+            document.getElementById('loginForm').style.display = mode === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
+            document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value.trim(), document.getElementById('loginPassword').value.trim());
+                await Swal.fire({ icon: 'success', title: 'เข้าสู่ระบบสำเร็จ!', timer: 1200, showConfirmButton: false });
+                window.location.href = 'index.html';
+            } catch (err) { Swal.fire({ icon: 'error', title: 'เข้าสู่ระบบไม่สำเร็จ', text: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' }); }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('regEmail').value.trim(), document.getElementById('regPassword').value.trim());
+                await setDoc(doc(db, "users", cred.user.uid), { email: cred.user.email, role: document.getElementById('regRole').value, exp: 50, createdAt: serverTimestamp() });
+                await Swal.fire({ icon: 'success', title: 'สมัครสมาชิกสำเร็จ!', timer: 1200, showConfirmButton: false });
+                window.location.href = 'index.html';
+            } catch (err) { Swal.fire({ icon: 'error', title: 'สมัครสมาชิกไม่สำเร็จ', text: err.message }); }
+        });
+    </script>
+</body>
+</html>
