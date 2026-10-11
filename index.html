@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Termsook Local</title>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100..900&family=Noto+Serif+Thai:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -48,14 +50,15 @@
             background: var(--header-bg); backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 40px;
+            padding: 10px 30px;
         }
-        .logo { display: flex; align-items: center; text-decoration: none; }
-        .logo-img-nav { height: 42px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); transition: transform 0.2s ease; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-img-nav { height: 52px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); transition: transform 0.2s ease; }
         .logo-img-nav:hover { transform: scale(1.05); }
+        .logo-text-nav { font-size: 18px; font-weight: 700; color: var(--text-main); white-space: nowrap; letter-spacing: -0.3px; }
 
-        .nav-links { display: flex; gap: 25px; list-style: none; }
-        .nav-links a { color: var(--text-sub); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-links { display: flex; gap: 20px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-sub); text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
         .nav-links a:hover { color: var(--primary); }
         .nav-controls { display: flex; gap: 10px; align-items: center; }
         
@@ -210,6 +213,24 @@
 
         .coupon-box { background: var(--input-bg); border: 1px dashed var(--primary); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
+        /* Accordion Style */
+        .accordion-header {
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; user-select: none; padding: 5px 0;
+        }
+        .accordion-header:hover h3 { color: var(--primary); }
+        .accordion-icon {
+            font-size: 14px; color: var(--text-sub); transition: transform 0.3s ease;
+        }
+        .accordion-header.active .accordion-icon { transform: rotate(180deg); color: var(--primary); }
+        .accordion-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0; margin-top: 0;
+        }
+        .accordion-header.active + .accordion-body {
+            max-height: 2500px; opacity: 1; margin-top: 15px;
+        }
+
         .table-responsive { overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
         th { background: var(--input-bg); color: var(--text-sub); padding: 10px 14px; border-bottom: 1px solid var(--border); font-weight: 600; }
@@ -260,8 +281,15 @@
         .footer-bottom { background-color: #020617; border-top: 1px solid #1e293b; text-align: center; padding: 15px 20px; font-size: 12px; color: #64748b; }
 
         /* 📱 RESPONSIVE DESIGN */
+        @media (max-width: 992px) {
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 13px; }
+        }
+
         @media (max-width: 768px) {
             header { padding: 10px 16px; flex-wrap: wrap; gap: 10px; }
+            .logo-img-nav { height: 42px; }
+            .logo-text-nav { font-size: 16px; }
             .nav-links { display: none; }
             .nav-controls { gap: 6px; width: 100%; justify-content: flex-end; }
             .control-btn { padding: 6px 12px; font-size: 12px; }
@@ -291,7 +319,6 @@
         }
 
         @media (max-width: 600px) {
-            .logo-img-nav { height: 34px; }
             .badge-grid { grid-template-columns: 1fr; }
             .modal-content { padding: 20px 16px; width: 100%; }
             .coupon-box { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -301,23 +328,25 @@
 <body data-theme="dark">
 
     <header>
-        <a href="index.html" class="logo" >
-            <img src="rogo_termsook-removebg-preview.png" alt="Termsook Local Logo"  class="logo-img-nav">
+        <a href="index.html" class="logo">
+            <img src="rogo_termsook-removebg-preview.png" alt="Termsook Local Logo" class="logo-img-nav">
+            <span class="logo-text-nav">Termsook Local</span>
         </a>
         <ul class="nav-links">
-            <li><a href="#section-map" data-i18n="nav_map">แผนที่ & หมวดหมู่</a></li>
-            <li><a href="#section-shops" data-i18n="nav_shops">ร้านค้า</a></li>
-            <li><a href="#section-quests" data-i18n="nav_quests">เควสส่วนลด</a></li>
-            <li><a href="#section-trip" data-i18n="nav_trip"> จัดทริปด้วยAI</a></li>
-            <li><a href="#section-faq" data-i18n="nav_faq">คำถามที่พบบ่อย</a></li>
-            <li><a href="#section-coupons" id="nav-coupons" style="display:none;" data-i18n="nav_coupons">คูปอง & ยศของฉัน</a></li>
-            <li><a href="#section-merchant" id="nav-merchant" style="display:none; color:var(--primary); font-weight:700;" data-i18n="nav_merchant"> ระบบจัดการร้านค้า</a></li>
+            <li><a href="#section-map" data-i18n="nav_map">แผนที่</a></li>
+            <li><a href="#section-shops" data-i18n="nav_shops">รายชื่อร้านค้า</a></li>
+            <li><a href="#section-recommend-shop" data-i18n="nav_recommend">ร้านแนะนำ</a></li>
+            <li id="nav-quests-item" style="display:none;"><a href="#section-quests" data-i18n="nav_quests">เควสส่วนลด</a></li>
+            <li><a href="#section-trip" data-i18n="nav_trip">AI จัดทริป</a></li>
+            <li><a href="#section-coupons" id="nav-coupons" style="display:none;" data-i18n="nav_coupons">คูปอง & ยศ</a></li>
+            <li><a href="#section-merchant" id="nav-merchant" style="display:none; color:var(--primary); font-weight:700;" data-i18n="nav_merchant">จัดการร้าน</a></li>
+            <li><a href="#section-faq" data-i18n="nav_faq">FAQ</a></li>
             <li><a href="#footer-contact" data-i18n="nav_contact">ติดต่อเรา</a></li>
         </ul>
         <div class="nav-controls" id="navControls">
-            <a href="auth.html" class="control-btn btn-auth-primary" id="authLinkBtn" data-i18n="btn_login_register"> เข้าสู่ระบบ / สมัครสมาชิก</a>
-            <button class="control-btn" id="langToggle"> <span>EN</span></button>
-            <button class="control-btn" id="themeToggle"> <span>Light</span></button>
+            <a href="auth.html" class="control-btn btn-auth-primary" id="authLinkBtn" data-i18n="btn_login_register">เข้าสู่ระบบ / สมัครสมาชิก</a>
+            <button class="control-btn" id="langToggle"><span>EN</span></button>
+            <button class="control-btn" id="themeToggle"><span>Light</span></button>
         </div>
     </header>
 
@@ -325,8 +354,7 @@
         <img src="rogo_termsook-removebg-preview.png" alt="Termsook Local Logo" class="hero-logo-img">
         <h1 data-i18n="hero_title">Termsook Local</h1>
         <p data-i18n="hero_sub">
-            แพลตฟอร์มท่องเที่ยวชุมชนภาคใต้ ค้นหาร้าน สินค้า OTOP และจุดเช็คอินลับ ครบทั้ง 14 จังหวัด
-                                    #รวมของหรอยปักษ์ใต้
+            แพลตฟอร์มท่องเที่ยวชุมชนภาคใต้ ค้นหาร้าน สินค้า OTOP และจุดเช็คอินลับ ครบทั้ง 14 จังหวัด #รวมของหรอยปักษ์ใต้
         </p>
         <div class="hero-search">
             <input type="text" id="searchInput" placeholder="ค้นหาจากชื่อร้านค้า..." data-i18n-ph="search_placeholder">
@@ -337,13 +365,13 @@
 
     <div class="container">
 
-        <!-- แผนที่ชุมชน -->
+        <!-- 1. แผนที่พิกัดร้านค้าชุมชนภาคใต้ -->
         <div class="map-section" id="section-map">
-            <h2 class="section-title" data-i18n="map_title"> แผนที่พิกัดร้านค้าชุมชนภาคใต้</h2>
+            <h2 class="section-title" data-i18n="map_title">แผนที่พิกัดร้านค้าชุมชนภาคใต้</h2>
             <div id="map"></div>
             
             <div class="form-group" style="margin-top: 15px; margin-bottom: 0;">
-                <label for="provinceSelectFilter" data-i18n="filter_province_label"> เลือกกรองร้านค้าตามจังหวัด (14 จังหวัดภาคใต้)</label>
+                <label for="provinceSelectFilter" data-i18n="filter_province_label">เลือกกรองร้านค้าตามจังหวัด (14 จังหวัดภาคใต้)</label>
                 <select id="provinceSelectFilter" style="padding: 12px 18px; font-weight: 600; border-color: var(--primary);">
                     <option value="all" data-i18n="all_provinces">แสดงทั้งหมดทุกร้านค้า (All 14 Provinces)</option>
                     <option value="กระบี่">กระบี่ (Krabi)</option>
@@ -364,74 +392,75 @@
             </div>
         </div>
 
-        <!-- รายชื่อร้านค้า -->
+        <!-- 2. รายชื่อร้านค้า -->
         <div id="section-shops">
-            <h2 class="section-title" data-i18n="shops_title"> รายชื่อร้านค้า</h2>
+            <h2 class="section-title" data-i18n="shops_title">รายชื่อร้านค้า</h2>
             <div id="shopList" class="shop-grid">กำลังโหลดข้อมูลร้านค้า...</div>
         </div>
 
-        <!-- เควสสะสมส่วนลด -->
-        <div class="quest-section" id="section-quests">
-            <h2 class="section-title" data-i18n="quests_title"> เควสสะสมส่วนลด </h2>
-            <div class="quest-card">
-                <div>
-                    <strong data-i18n="quest_photo_title"> เควสถ่ายสินค้า</strong>
-                    <p style="font-size:13px; color:var(--text-sub);" data-i18n="quest_photo_desc">ถ่ายรูปอาหารในร้านค้าชุมชน รับโค้ดส่วนลดทันที 10% (+50 EXP)</p>
-                </div>
-                <button class="quest-btn" onclick="openQuestModal('TSL-PHOTO10', 'ส่วนลด 10% เควสถ่ายรูปอาหาร')" data-i18n="btn_get_coupon">รับคูปอง</button>
+        <!-- 3. ร้านค้าชุมชนที่ได้รับการแนะนำจากนักท่องเที่ยว (แบบเปิด-ปิด) -->
+        <div class="form-card" id="section-recommend-shop">
+            <div class="accordion-header" id="recommendAccordionBtn">
+                <h3 style="margin-bottom:0;" data-i18n="rec_shop_title"> ร้านค้าชุมชนที่ได้รับการแนะนำจากนักท่องเที่ยว (คลิกเพื่อเปิด)</h3>
+                <span class="accordion-icon" id="recommendAccordionIcon">▼</span>
             </div>
-            <div class="quest-card">
-                <div>
-                    <strong data-i18n="quest_tiktok_title"> เควสโพสต์คลิป TikTok/Reels</strong>
-                    <p style="font-size:13px; color:var(--text-sub);" data-i18n="quest_tiktok_desc">โพสต์คลิปพร้อมติดแฮชแท็ก #TermsookLocal รับส่วนลดทันที 20% (+50 EXP)</p>
+
+            <div class="accordion-body" id="recommendAccordionBody">
+                <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" data-i18n="rec_shop_sub">หากคุณพบร้านค้าชุมชน ร้านอาหารเด็ด หรือจุดเช็คอินลับที่ยังไม่มีในระบบ สามารถส่งข้อมูลแนะนำเพื่อให้ทีมงานตรวจสอบและเพิ่มเข้าระบบได้ครับ</p>
+                
+                <form id="recommendShopForm">
+                    <div class="form-group">
+                        <label data-i18n="rec_shop_name">ชื่อร้านค้าที่แนะนำ *</label>
+                        <input type="text" id="recShopName" placeholder="เช่น ร้านขนมหวานยายกิม เมืองสงขลา" required data-i18n-ph="rec_shop_name_ph">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-i18n="rec_shop_province">จังหวัด *</label>
+                        <select id="recProvince" required>
+                            <option value="กระบี่">กระบี่ (Krabi)</option>
+                            <option value="ชุมพร">ชุมพร (Chumphon)</option>
+                            <option value="ตรัง">ตรัง (Trang)</option>
+                            <option value="นครศรีธรรมราช">นครศรีธรรมราช (Nakhon Si Thammarat)</option>
+                            <option value="นราธิวาส">นราธิวาส (Narathiwat)</option>
+                            <option value="ปัตตานี">ปัตตานี (Pattani)</option>
+                            <option value="พังงา">พังงา (Phang Nga)</option>
+                            <option value="พัทลุง">พัทลุง (Phatthalung)</option>
+                            <option value="ภูเก็ต">ภูเก็ต (Phuket)</option>
+                            <option value="ยะลา">ยะลา (Yala)</option>
+                            <option value="ระนอง">ระนอง (Ranong)</option>
+                            <option value="สงขลา" selected>สงขลา (Songkhla)</option>
+                            <option value="สตูล">สตูล (Satun)</option>
+                            <option value="สุราษฎร์ธานี">สุราษฎร์ธานี (Surat Thani)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="rec_shop_map">พิกัด GPS หรือ ลิงก์ Google Maps</label>
+                        <input type="text" id="recMapUrl" placeholder="แปะลิงก์ Google Maps หรือพิมพ์พิกัด GPS ของร้านค้า" data-i18n-ph="rec_shop_map_ph">
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="rec_shop_reason">เหตุผลที่แนะนำ / รายละเอียดสินค้าเด็ด *</label>
+                        <textarea id="recReason" rows="3" placeholder="ระบุเหตุผลที่อยากแนะนำ เช่น ขนมโบราณอร่อยมาก, บรรยากาศชุมชนดี, พ่อค้าแม่ค้าน่ารัก..." required data-i18n-ph="rec_shop_reason_ph"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" style="background: var(--secondary);" data-i18n="btn_rec_submit">📍 ส่งข้อมูลแนะนำร้านค้าชุมชน</button>
+                </form>
+
+                <hr style="border-color:var(--border); margin:25px 0;">
+
+                <h4 style="font-size:16px; margin-bottom:6px; color:var(--primary);" data-i18n="rec_list_title">รายการร้านค้าชุมชนที่ได้รับการแนะนำ</h4>
+                <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" data-i18n="rec_list_sub">รายการร้านค้าเด็ดจุดลับที่เพื่อนๆ นักท่องเที่ยวส่งเข้ามาแนะนำในระบบ</p>
+                <div id="recommendedShopsList" class="badge-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                    <p style="color:var(--text-sub); font-size:13px;">กำลังโหลดรายการร้านค้าแนะนำ...</p>
                 </div>
-                <button class="quest-btn" onclick="openQuestModal('TSL-TIKTOK20', 'ส่วนลด 20% เควสโพสต์คลิป TikTok')" data-i18n="btn_get_coupon">รับคูปอง</button>
             </div>
         </div>
 
-        <!-- คูปอง & ระดับนักท่องเที่ยว -->
-        <div class="form-card" id="section-coupons" style="display: none;">
-            <h3 data-i18n="rank_title">🏆 ระดับนักท่องเที่ยว & Badge ความสำเร็จ (Tourist Rank)</h3>
-            <div class="level-progress-container">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <strong style="font-size:15px; color:var(--primary);" id="displayUserLevelTitle"> นักเดินทางมือใหม่ (Level 1)</strong>
-                    <span style="font-size:13px; color:var(--text-sub);" id="displayUserExpText">0 / 100 EXP</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="displayUserExpBar" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <h4 style="font-size:14px; margin-bottom:8px; color:var(--text-main);" data-i18n="badge_title"> Badge ตราความสำเร็จของคุณ:</h4>
-            <div class="badge-grid" id="userBadgeGrid">
-                <div class="badge-card" id="badge-foodie">
-                    <div class="badge-card-icon"></div>
-                    <div class="badge-card-title" data-i18n="badge_foodie_title">ช่างภาพสายกิน</div>
-                    <div class="badge-card-status" data-i18n="badge_foodie_desc">ทำเควสถ่ายรูปอาหาร</div>
-                </div>
-                <div class="badge-card" id="badge-social">
-                    <div class="badge-card-icon"></div>
-                    <div class="badge-card-title" data-i18n="badge_social_title">ดาว TikTok ชุมชน</div>
-                    <div class="badge-card-status" data-i18n="badge_social_desc">ทำเควสโพสต์คลิป</div>
-                </div>
-                <div class="badge-card" id="badge-explorer">
-                    <div class="badge-card-icon"></div>
-                    <div class="badge-card-title" data-i18n="badge_explorer_title">นักล่าของหรอย 14 จังหวัด</div>
-                    <div class="badge-card-status" data-i18n="badge_explorer_desc">ระดับครบ 100 EXP</div>
-                </div>
-            </div>
-
-            <hr style="border-color:var(--border); margin:20px 0;">
-
-            <h3 data-i18n="my_coupons_title"> คูปองส่วนลดของฉัน (My Coupons)</h3>
-            <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" data-i18n="my_coupons_sub">แสดงคูปองส่วนลดนี้ให้ร้านค้าหน้าร้านเพื่อรับส่วนลดพิเศษ</p>
-            <div id="userCouponList">ยังไม่มีคูปองที่บันทึกไว้</div>
-        </div>
-
-        <!-- AI Generative Trip Planner (Gemini API + RAG Flow) -->
+        <!-- 4. AI Generative Trip Planner -->
         <div class="form-card" id="section-trip">
-            <h3 data-i18n="ai_trip_title"> AI Generative Trip Planner </h3>
-            <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" data-i18n="ai_trip_sub">ระบบจะดึงข้อมูลร้านค้าจริงในฐานข้อมูลมาสร้าง Prompt ส่งให้ Gemini AI ประมวลผลและเล่าเรื่องวางแผนทริปแบบเรียลไทม์</p>
+            <h3 data-i18n="ai_trip_title">AI Generative Trip Planner</h3>
+            <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" data-i18n="ai_trip_sub">ระบบจะดึงข้อมูลร้านค้าจริงในฐานข้อมูลมาสร้าง Prompt ส่งให้ AI ประมวลผลและเล่าเรื่องวางแผนทริปแบบเรียลไทม์</p>
 
             <div class="trip-grid-container">
                 <div class="form-group">
@@ -463,7 +492,7 @@
                 </div>
             </div>
 
-            <button class="btn-submit" id="btnGenerateTrip" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);" data-i18n="btn_generate_trip"> ส่ง Context ให้  AI วางแผนทริป</button>
+            <button class="btn-submit" id="btnGenerateTrip" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);" data-i18n="btn_generate_trip">ส่ง Context ให้ AI วางแผนทริป</button>
 
             <div id="tripResult" style="margin-top:20px; display:none;">
                 <h4 style="font-size:15px; color:var(--primary); margin-bottom:10px;" id="tripResultTitle" data-i18n="trip_result_title"> ตารางแผนทริปแนะนำโดย AI:</h4>
@@ -477,23 +506,81 @@
             </div>
         </div>
 
-        <!--  ส่วนสำหรับ พ่อค้าแม่ค้า -->
+        <!-- 🔒 ส่วนเฉพาะผู้ใช้งานที่เข้าสู่ระบบแล้วเท่านั้น -->
+        
+        <!-- เควสสะสมส่วนลด (แสดงเมื่อ ล็อกอิน) -->
+        <div class="quest-section" id="section-quests" style="display: none;">
+            <h2 class="section-title" data-i18n="quests_title"> เควสสะสมส่วนลด</h2>
+            <div class="quest-card">
+                <div>
+                    <strong data-i18n="quest_photo_title">เควสถ่ายสินค้า</strong>
+                    <p style="font-size:13px; color:var(--text-sub);" data-i18n="quest_photo_desc">ถ่ายรูปอาหารในร้านค้าชุมชน รับโค้ดส่วนลดทันที 10% (+50 EXP)</p>
+                </div>
+                <button class="quest-btn" onclick="openQuestModal('TSL-PHOTO10', 'ส่วนลด 10% เควสถ่ายรูปอาหาร')" data-i18n="btn_get_coupon">รับคูปอง</button>
+            </div>
+            <div class="quest-card">
+                <div>
+                    <strong data-i18n="quest_tiktok_title">เควสโพสต์คลิป TikTok/Reels</strong>
+                    <p style="font-size:13px; color:var(--text-sub);" data-i18n="quest_tiktok_desc">โพสต์คลิปพร้อมติดแฮชแท็ก #TermsookLocal รับส่วนลดทันที 20% (+50 EXP)</p>
+                </div>
+                <button class="quest-btn" onclick="openQuestModal('TSL-TIKTOK20', 'ส่วนลด 20% เควสโพสต์คลิป TikTok')" data-i18n="btn_get_coupon">รับคูปอง</button>
+            </div>
+        </div>
+
+        <!-- คูปอง & ระดับนักท่องเที่ยว (แสดงเมื่อ ล็อกอิน) -->
+        <div class="form-card" id="section-coupons" style="display: none;">
+            <h3 data-i18n="rank_title"> ระดับนักท่องเที่ยว & Badge ความสำเร็จ (Tourist Rank)</h3>
+            <div class="level-progress-container">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <strong style="font-size:15px; color:var(--primary);" id="displayUserLevelTitle">นักเดินทางมือใหม่ (Level 1)</strong>
+                    <span style="font-size:13px; color:var(--text-sub);" id="displayUserExpText">0 / 100 EXP</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="displayUserExpBar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <h4 style="font-size:14px; margin-bottom:8px; color:var(--text-main);" data-i18n="badge_title">Badge ตราความสำเร็จของคุณ:</h4>
+            <div class="badge-grid" id="userBadgeGrid">
+                <div class="badge-card" id="badge-foodie">
+                    <div class="badge-card-icon"></div>
+                    <div class="badge-card-title" data-i18n="badge_foodie_title">ช่างภาพสายกิน</div>
+                    <div class="badge-card-status" data-i18n="badge_foodie_desc">ทำเควสถ่ายรูปอาหาร</div>
+                </div>
+                <div class="badge-card" id="badge-social">
+                    <div class="badge-card-icon"></div>
+                    <div class="badge-card-title" data-i18n="badge_social_title">ดาว TikTok ชุมชน</div>
+                    <div class="badge-card-status" data-i18n="badge_social_desc">ทำเควสโพสต์คลิป</div>
+                </div>
+                <div class="badge-card" id="badge-explorer">
+                    <div class="badge-card-icon"></div>
+                    <div class="badge-card-title" data-i18n="badge_explorer_title">นักล่าของหรอย 14 จังหวัด</div>
+                    <div class="badge-card-status" data-i18n="badge_explorer_desc">ระดับครบ 100 EXP</div>
+                </div>
+            </div>
+
+            <hr style="border-color:var(--border); margin:20px 0;">
+
+            <h3 data-i18n="my_coupons_title">คูปองส่วนลดของฉัน (My Coupons)</h3>
+            <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" data-i18n="my_coupons_sub">แสดงคูปองส่วนลดนี้ให้ร้านค้าหน้าร้านเพื่อรับส่วนลดพิเศษ</p>
+            <div id="userCouponList">ยังไม่มีคูปองที่บันทึกไว้</div>
+        </div>
+
+        <!-- แผงจัดการ พ่อค้าแม่ค้า (แสดงเฉพาะ Merchant) -->
         <div class="form-card" id="section-merchant" style="display: none; border: 1px solid var(--primary);">
-            <h3 style="color:var(--primary); margin-bottom:5px;" data-i18n="merchant_title"> แผงจัดการสำหรับเจ้าของร้านค้า (Merchant Panel)</h3>
+            <h3 style="color:var(--primary); margin-bottom:5px;" data-i18n="merchant_title">แผงจัดการสำหรับเจ้าของร้านค้า (Merchant Panel)</h3>
             <p style="font-size:13px; color:var(--text-sub); margin-bottom:20px;"><span data-i18n="merchant_acc">สิทธิ์บัญชีร้านค้า:</span> <strong id="userEmailDisplay" style="color:var(--primary);"></strong></p>
 
-            <!-- ตรวจสอบคูปอง -->
             <div style="background:var(--input-bg); border:1px solid var(--primary); border-radius:14px; padding:20px; margin-bottom:25px;">
-                <h4 style="font-size:15px; margin-bottom:10px; color:var(--primary);" data-i18n="verify_coupon_title"> ตรวจสอบ / ยืนยันใช้คูปองส่วนลดของลูกค้าหน้าร้าน</h4>
+                <h4 style="font-size:15px; margin-bottom:10px; color:var(--primary);" data-i18n="verify_coupon_title">ตรวจสอบ / ยืนยันใช้คูปองส่วนลดของลูกค้าหน้าร้าน</h4>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <input type="text" id="merchantCouponInput" placeholder="กรอกรหัสคูปองลูกค้า เช่น TSL-PHOTO10" style="flex:1; min-width:200px;" data-i18n-ph="coupon_ph">
                     <button class="btn-submit" id="btnVerifyCoupon" style="width:auto; padding:0 24px; margin-top:0;" data-i18n="btn_verify">สแกน/ยืนยันใช้งาน</button>
                 </div>
             </div>
 
-            <!-- ตารางแก้ไขร้านค้า -->
             <div style="background:var(--input-bg); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:25px;">
-                <h4 style="font-size:15px; margin-bottom:12px;" data-i18n="my_shops_title"> รายการร้านค้าของคุณ</h4>
+                <h4 style="font-size:15px; margin-bottom:12px;" data-i18n="my_shops_title">รายการร้านค้าของคุณ</h4>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -513,7 +600,6 @@
                 </div>
             </div>
 
-            <!-- เพิ่มร้านค้าใหม่ -->
             <div style="background:var(--input-bg); border:1px solid var(--border); border-radius:14px; padding:20px;">
                 <h4 style="font-size:15px; margin-bottom:12px;" data-i18n="add_shop_title">➕ ลงทะเบียนเพิ่มร้านค้าใหม่</h4>
                 <div class="form-group">
@@ -544,7 +630,7 @@
                     <input type="text" id="shopPriceRange" placeholder="เช่น 50 - 150 หรือ 100 - 300">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="add_shop_map"> ลิงก์ Google Maps หรือพิกัด GPS</label>
+                    <label data-i18n="add_shop_map">ลิงก์ Google Maps หรือพิกัด GPS</label>
                     <input type="text" id="shopMapUrl" placeholder="วางลิงก์ Google Maps ของร้านค้าเพื่อให้ปักหมุดแม่นยำ">
                 </div>
                 <div class="form-group">
@@ -556,7 +642,7 @@
                     <input type="text" id="shopAddress" placeholder="ระบุถนน ตำบล อำเภอ">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="add_shop_image"> อัปโหลดรูปภาพร้านค้า (เลือกรูปจากเครื่อง/มือถือ)</label>
+                    <label data-i18n="add_shop_image">อัปโหลดรูปภาพร้านค้า (เลือกรูปจากเครื่อง/มือถือ)</label>
                     <input type="file" id="shopImageFile" accept="image/*" style="padding: 8px;">
                     <div class="preview-img-container" id="previewContainer">
                         <img id="previewImg" class="preview-img" src="" alt="ภาพพรีวิว">
@@ -566,9 +652,9 @@
             </div>
         </div>
 
-        <!-- FAQ -->
+        <!-- 5. ❓ คำถามที่พบบ่อย (FAQ - ย้ายมาไว้ส่วนท้ายสุด) -->
         <div class="faq-card" id="section-faq">
-            <h2 class="section-title" data-i18n="faq_title">❓ คำถามที่พบบ่อย (FAQ)</h2>
+            <h2 class="section-title" data-i18n="faq_title"> คำถามที่พบบ่อย (FAQ)</h2>
             <p style="font-size:13px; color:var(--text-sub); margin-bottom:20px;" data-i18n="faq_sub">ไขข้อสงสัยและคำแนะนำการใช้งานแพลตฟอร์ม Termsook Local</p>
 
             <div class="faq-item">
@@ -630,20 +716,20 @@
                 <div class="contacts-title">Contacts</div>
                 <div class="contacts-grid">
                     <a href="https://facebook.com" target="_blank" class="contact-item">
-                        <span class="contact-icon"></span>
-                        <span>📍 Termsook Local</span>
+                        <span class="contact-icon">📍</span>
+                        <span>Termsook Local</span>
                     </a>
                     <a href="#" class="contact-item">
-                        <span class="contact-icon"></span>
-                        <span>📍 @termsook_local</span>
+                        <span class="contact-icon">📍</span>
+                        <span>@termsook_local</span>
                     </a>
                     <a href="" class="contact-item">
-                        <span class="contact-icon"></span>
-                        <span>📍 061-196-6527</span>
+                        <span class="contact-icon">📍</span>
+                        <span>061-196-6527</span>
                     </a>
                     <a href="https://instagram.com" target="_blank" class="contact-item">
-                        <span class="contact-icon"></span>
-                        <span>📍 termsooklocal_ig</span>
+                        <span class="contact-icon">📍</span>
+                        <span>termsooklocal_ig</span>
                     </a>
                 </div>
             </div>
@@ -661,7 +747,7 @@
             <h3 style="color:var(--primary); margin-bottom: 5px;" data-i18n="modal_quest_success">ยินดีด้วย! คุณทำเควสสำเร็จ</h3>
             <p style="font-size:13px; color:var(--text-sub); margin-bottom:15px;" id="modalCouponDesc" data-i18n="modal_quest_sub">สแกน QR Code นี้หน้าร้านเพื่อรับส่วนลด</p>
             <div class="qr-placeholder" id="qrCodeText">TSL2026</div>
-            <button class="btn-submit" id="btnSaveCoupon" style="background:var(--secondary); margin-bottom:8px;" data-i18n="btn_save_coupon_modal"> บันทึกคูปองเข้าบัญชีฉัน (+50 EXP)</button>
+            <button class="btn-submit" id="btnSaveCoupon" style="background:var(--secondary); margin-bottom:8px;" data-i18n="btn_save_coupon_modal">บันทึกคูปองเข้าบัญชีฉัน (+50 EXP)</button>
             <button class="btn-submit" onclick="closeQuestModal()" style="background:transparent; border:1px solid var(--border);" data-i18n="btn_close">ปิดหน้านี้</button>
         </div>
     </div>
@@ -682,11 +768,16 @@
                 faqItem.classList.add('active');
             }
         }
+
+        // Accordion สำหรับฟอร์มและรายการแนะนำร้านค้า
+        document.getElementById('recommendAccordionBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, getDoc, getDocs, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, getDoc, getDocs, updateDoc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -703,62 +794,73 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        const GEMINI_API_KEY = "AQ.Ab8RN6LJ7JIWCN82Jh9BXTZS09-Ph2bvQqWsjBdPK5pSX0vsLw";
-
-        // ระบบพจนานุกรมภาษา TH / EN
+        // พจนานุกรมภาษา TH / EN (ปรับสั้นกระชับ)
         const i18nDict = {
             th: {
-                nav_map: "แผนที่ & หมวดหมู่",
-                nav_shops: "ร้านค้า",
+                nav_map: "แผนที่",
+                nav_shops: "รายชื่อร้านค้า",
                 nav_quests: "เควสส่วนลด",
+                nav_recommend: "ร้านแนะนำ",
                 nav_trip: "AI จัดทริป",
-                nav_faq: "คำถามที่พบบ่อย",
-                nav_coupons: "คูปอง & ยศของฉัน",
-                nav_merchant: " ระบบจัดการร้านค้า",
+                nav_faq: "FAQ",
+                nav_coupons: "คูปอง & ยศ",
+                nav_merchant: "จัดการร้าน",
                 nav_contact: "ติดต่อเรา",
-                btn_login_register: "🔑 เข้าสู่ระบบ / สมัครสมาชิก",
+                btn_login_register: " เข้าสู่ระบบ / สมัครสมาชิก",
                 hero_title: "เติมสุข โลคัล — Termsook Local",
                 hero_sub: "แพลตฟอร์มท่องเที่ยวชุมชนภาคใต้ ค้นหาร้านลับ สินค้า OTOP และจุดเช็คอินลับ ครบทั้ง 14 จังหวัด",
                 search_placeholder: "ค้นหาจากชื่อร้านค้า...",
                 btn_search: "ค้นหา",
                 btn_near_me: "📍 ร้านใกล้ฉัน",
-                map_title: " แผนที่พิกัดร้านค้าชุมชนภาคใต้",
-                filter_province_label: " เลือกกรองร้านค้าตามจังหวัด (14 จังหวัดภาคใต้)",
+                map_title: "แผนที่พิกัดร้านค้าชุมชนภาคใต้",
+                filter_province_label: "เลือกกรองร้านค้าตามจังหวัด (14 จังหวัดภาคใต้)",
                 all_provinces: "แสดงทั้งหมดทุกร้านค้า (All 14 Provinces)",
-                shops_title: " รายชื่อร้านค้าชุมชนลับในพื้นที่",
-                quests_title: "🎁 เควสท่องเที่ยวสะสมส่วนลด",
-                quest_photo_title: " เควสถ่ายรูปอาหาร",
+                shops_title: "รายชื่อร้านค้า",
+                quests_title: " เควสส่วนลด",
+                quest_photo_title: "เควสถ่ายรูปอาหาร",
                 quest_photo_desc: "ถ่ายรูปอาหารในร้านค้าชุมชน รับโค้ดส่วนลด 10% (+50 EXP)",
-                quest_tiktok_title: " เควสโพสต์คลิป TikTok/Reels",
+                quest_tiktok_title: "เควสโพสต์คลิป TikTok/Reels",
                 quest_tiktok_desc: "โพสต์คลิปพร้อมติดแฮชแท็ก #TermsookLocal รับส่วนลด 20% (+50 EXP)",
                 btn_get_coupon: "รับคูปอง",
-                rank_title: " ระดับนักท่องเที่ยว & Badge ความสำเร็จ (Tourist Rank)",
-                badge_title: "🎖️ Badge ตราความสำเร็จของคุณ:",
+                rank_title: "ระดับนักท่องเที่ยว & Badge ความสำเร็จ (Tourist Rank)",
+                badge_title: "Badge ตราความสำเร็จของคุณ:",
                 badge_foodie_title: "ช่างภาพสายกิน",
                 badge_foodie_desc: "ทำเควสถ่ายรูปอาหาร",
                 badge_social_title: "ดาว TikTok ชุมชน",
                 badge_social_desc: "ทำเควสโพสต์คลิป",
                 badge_explorer_title: "นักสำรวจ 14 จังหวัด",
                 badge_explorer_desc: "ระดับครบ 100 EXP",
-                my_coupons_title: " คูปองส่วนลดของฉัน (My Coupons)",
+                my_coupons_title: "คูปองส่วนลดของฉัน (My Coupons)",
                 my_coupons_sub: "แสดงคูปองส่วนลดนี้ให้ร้านค้าหน้าร้านเพื่อรับส่วนลดพิเศษ",
-                ai_trip_title: " AI Generative Trip Planner (Gemini RAG Flow)",
-                ai_trip_sub: "ระบบจะดึงข้อมูลร้านค้าจริงในฐานข้อมูลมาสร้าง Prompt ส่งให้  AI ประมวลผลและเล่าเรื่องวางแผนทริปแบบเรียลไทม์",
+                rec_shop_title: " ร้านค้าชุมชนที่ได้รับการแนะนำจากนักท่องเที่ยว (คลิกเพื่อเปิด)",
+                rec_shop_sub: "หากคุณพบร้านค้าชุมชน ร้านอาหารเด็ด หรือจุดเช็คอินลับที่ยังไม่มีในระบบ สามารถส่งข้อมูลแนะนำเพื่อให้ทีมงานตรวจสอบและเพิ่มเข้าระบบได้ครับ",
+                rec_shop_name: "ชื่อร้านค้าที่แนะนำ *",
+                rec_shop_name_ph: "เช่น ร้านขนมหวานยายกิม เมืองสงขลา",
+                rec_shop_province: "จังหวัด *",
+                rec_shop_map: "พิกัด GPS หรือ ลิงก์ Google Maps",
+                rec_shop_map_ph: "แปะลิงก์ Google Maps หรือพิมพ์พิกัด GPS ของร้านค้า",
+                rec_shop_reason: "เหตุผลที่แนะนำ / รายละเอียดสินค้าเด็ด *",
+                rec_shop_reason_ph: "ระบุเหตุผลที่อยากแนะนำ เช่น ขนมโบราณอร่อยมาก, บรรยากาศชุมชนดี, พ่อค้าแม่ค้าน่ารัก...",
+                btn_rec_submit: " ส่งข้อมูลแนะนำร้านค้าชุมชน",
+                rec_list_title: "รายการร้านค้าชุมชนที่ได้รับการแนะนำ",
+                rec_list_sub: "รายการร้านค้าเด็ดจุดลับที่เพื่อนๆ นักท่องเที่ยวส่งเข้ามาแนะนำในระบบ",
+                ai_trip_title: "AI Generative Trip Planner",
+                ai_trip_sub: "ระบบจะดึงข้อมูลร้านค้าจริงในฐานข้อมูลมาสร้าง Prompt ส่งให้ AI ประมวลผลและเล่าเรื่องวางแผนทริปแบบเรียลไทม์",
                 trip_province_label: "จังหวัดเป้าหมาย",
                 trip_style_label: "สไตล์การเที่ยวที่คุณต้องการ",
                 style_food: " สายกิน ตระเวนชิมร้านเด็ด",
                 style_photo: " สายเช็คอิน ถ่ายรูปจุดลับ",
                 style_otop: " สายช้อปปิ้ง อุดหนุน OTOP ชุมชน",
-                btn_generate_trip: " ส่ง  ให้ AI วางแผนทริป",
+                btn_generate_trip: "ส่ง Context ให้ AI วางแผนทริป",
                 trip_result_title: " ตารางแผนทริปแนะนำโดย AI:",
                 btn_save_trip: " บันทึกแผนทริปนี้เข้าบัญชีฉัน",
                 saved_trips_title: " ประวัติแผนทริปที่บันทึกไว้:",
-                merchant_title: " แผงจัดการสำหรับเจ้าของร้านค้า (Merchant Panel)",
+                merchant_title: "แผงจัดการสำหรับเจ้าของร้านค้า (Merchant Panel)",
                 merchant_acc: "สิทธิ์บัญชีร้านค้า:",
-                verify_coupon_title: " ตรวจสอบ / ยืนยันใช้คูปองส่วนลดของลูกค้าหน้าร้าน",
+                verify_coupon_title: "ตรวจสอบ / ยืนยันใช้คูปองส่วนลดของลูกค้าหน้าร้าน",
                 coupon_ph: "กรอกรหัสคูปองลูกค้า เช่น TSL-PHOTO10",
                 btn_verify: "สแกน/ยืนยันใช้งาน",
-                my_shops_title: " รายการร้านค้าของคุณ",
+                my_shops_title: "รายการร้านค้าของคุณ",
                 th_name: "ชื่อร้านค้า",
                 th_province: "จังหวัด",
                 th_price: "ช่วงราคา (บาท)",
@@ -769,12 +871,12 @@
                 add_shop_name: "ชื่อร้านค้า",
                 add_shop_province: "จังหวัด",
                 add_shop_price: "ช่วงราคาอาหาร/สินค้าโดยประมาณ (บาท)",
-                add_shop_map: " ลิงก์ Google Maps หรือพิกัด GPS",
+                add_shop_map: "ลิงก์ Google Maps หรือพิกัด GPS",
                 add_shop_phone: "เบอร์โทรติดต่อ",
                 add_shop_address: "ที่อยู่ร้านค้า (ข้อความรายละเอียด)",
-                add_shop_image: " อัปโหลดรูปภาพร้านค้า (เลือกรูปจากเครื่อง/มือถือ)",
+                add_shop_image: "อัปโหลดรูปภาพร้านค้า (เลือกรูปจากเครื่อง/มือถือ)",
                 btn_add_shop: "➕ เพิ่มร้านค้าใหม่ลงระบบ",
-                faq_title: "❓ คำถามที่พบบ่อย (FAQ)",
+                faq_title: " คำถามที่พบบ่อย (FAQ)",
                 faq_sub: "ไขข้อสงสัยและคำแนะนำการใช้งานแพลตฟอร์ม Termsook Local",
                 faq_q1: "Q1: ทำเควสท่องเที่ยวแล้ว จะนำคูปองไปรับส่วนลดหน้าร้านอย่างไร?",
                 faq_a1: "ตอบ: เมื่อทำเควสสำเร็จ กดรับและบันทึกคูปองเข้าสู่บัญชี ระบบจะเจน QR Code / รหัสส่วนลดให้ คุณสามารถเปิดหน้า 'คูปองของฉัน' ยื่นรหัสให้พ่อค้าแม่ค้าหน้าร้านสแกนเพื่อรับส่วนลดพิเศษได้ทันทีครับ",
@@ -786,77 +888,90 @@
                 faq_a4: "ตอบ: เพื่อป้องกันรีวิวปลอม ผู้ใช้งานต้องเข้าสู่ระบบและเป็นนักท่องเที่ยวที่เคยกดรับคูปองส่วนลดของแพลตฟอร์มแล้วเท่านั้น จึงจะสามารถให้คะแนนดาวและส่งรีวิวได้ครับ",
                 modal_quest_success: "ยินดีด้วย! คุณทำเควสสำเร็จ",
                 modal_quest_sub: "สแกน QR Code นี้หน้าร้านเพื่อรับส่วนลด",
-                btn_save_coupon_modal: "📥 บันทึกคูปองเข้าบัญชีฉัน (+50 EXP)",
+                btn_save_coupon_modal: "บันทึกคูปองเข้าบัญชีฉัน (+50 EXP)",
                 btn_close: "ปิดหน้านี้"
             },
             en: {
-                nav_map: "Map & Categories",
-                nav_shops: "Hidden Gems",
-                nav_quests: "Discount Quests",
-                nav_trip: "AI Trip Planner",
+                nav_map: "Map",
+                nav_shops: "Shops",
+                nav_quests: "Quests",
+                nav_recommend: "Recommendations",
+                nav_trip: "AI Trip",
                 nav_faq: "FAQ",
-                nav_coupons: "My Coupons & Rank",
-                nav_merchant: " Merchant Panel",
-                nav_contact: "Contact Us",
-                btn_login_register: "🔑 Sign In / Register",
+                nav_coupons: "Coupons & Rank",
+                nav_merchant: "Manage Shop",
+                nav_contact: "Contact",
+                btn_login_register: " Sign In / Register",
                 hero_title: "Termsook Local — Southern Community Travel",
                 hero_sub: "Southern Thailand community tourism platform. Discover local shops, OTOP products, and hidden gems across 14 provinces.",
                 search_placeholder: "Search by shop name...",
                 btn_search: "Search",
                 btn_near_me: "📍 Shops Near Me",
-                map_title: " Southern Local Community Map",
-                filter_province_label: " Filter Shops by Province (14 Southern Provinces)",
+                map_title: "Southern Community Map",
+                filter_province_label: "Filter Shops by Province (14 Southern Provinces)",
                 all_provinces: "Show All Shops (All 14 Provinces)",
-                shops_title: " Hidden Local Community Shops",
-                quests_title: "🎁 Travel Quests & Discount Rewards",
-                quest_photo_title: " Food Photo Quest",
+                shops_title: "Shop List",
+                quests_title: " Discount Quests",
+                quest_photo_title: "Food Photo Quest",
                 quest_photo_desc: "Take a photo of food at local shops to get a 10% discount code (+50 EXP)",
-                quest_tiktok_title: " TikTok/Reels Video Quest",
+                quest_tiktok_title: "TikTok/Reels Video Quest",
                 quest_tiktok_desc: "Post a short video with hashtag #TermsookLocal for a 20% discount (+50 EXP)",
                 btn_get_coupon: "Get Coupon",
-                rank_title: " Tourist Rank & Achievement Badges",
-                badge_title: "🎖️ Your Achievement Badges:",
+                rank_title: "Tourist Rank & Achievement Badges",
+                badge_title: "Your Achievement Badges:",
                 badge_foodie_title: "Foodie Photographer",
                 badge_foodie_desc: "Completed Food Photo Quest",
                 badge_social_title: "Local TikTok Star",
                 badge_social_desc: "Completed Video Quest",
                 badge_explorer_title: "14-Province Explorer",
                 badge_explorer_desc: "Reached 100 EXP",
-                my_coupons_title: " My Coupons",
+                my_coupons_title: "My Coupons",
                 my_coupons_sub: "Show this coupon to local merchants at the storefront to claim discount",
-                ai_trip_title: " AI Generative Trip Planner (Gemini RAG Flow)",
+                rec_shop_title: " Tourist Recommended Shops (Click to Expand)",
+                rec_shop_sub: "Found a hidden local gem? Recommend it here so our team can review and add it to the platform!",
+                rec_shop_name: "Recommended Shop Name *",
+                rec_shop_name_ph: "e.g. Yai Kim Thai Desserts",
+                rec_shop_province: "Province *",
+                rec_shop_map: "GPS Coordinates or Google Maps Link",
+                rec_shop_map_ph: "Paste Google Maps link or type GPS location",
+                rec_shop_reason: "Reason / Highlight Products *",
+                rec_shop_reason_ph: "Why do you recommend this shop? e.g. Delicious traditional dessert...",
+                btn_rec_submit: " Submit Shop Recommendation",
+                rec_list_title: "Recommended Local Shops",
+                rec_list_sub: "List of local hidden gems recommended by fellow travelers.",
+                ai_trip_title: "AI Generative Trip Planner",
                 ai_trip_sub: "The system fetches real shop data from Firestore to generate prompts for Gemini AI to process and tell stories in real-time.",
                 trip_province_label: "Target Province",
                 trip_style_label: "Preferred Travel Style",
                 style_food: " Foodie: Local Delicacies",
                 style_photo: " Photo Spot: Hidden Check-ins",
                 style_otop: " Shopping: Support Local OTOP",
-                btn_generate_trip: " Send Context to Gemini AI Trip Planner",
+                btn_generate_trip: "Send Context to AI Trip Planner",
                 trip_result_title: " AI Recommended Itinerary:",
                 btn_save_trip: " Save Trip to My Account",
                 saved_trips_title: " Saved Travel Plans:",
-                merchant_title: " Merchant Dashboard",
+                merchant_title: "Merchant Dashboard",
                 merchant_acc: "Merchant Account:",
-                verify_coupon_title: " Verify / Redeem Customer Coupon",
+                verify_coupon_title: "Verify / Redeem Customer Coupon",
                 coupon_ph: "Enter customer coupon code e.g. TSL-PHOTO10",
                 btn_verify: "Verify Coupon",
-                my_shops_title: " Your Registered Shops",
+                my_shops_title: "Your Registered Shops",
                 th_name: "Shop Name",
                 th_province: "Province",
                 th_price: "Price Range (THB)",
                 th_phone: "Phone Number",
                 th_address: "Address",
                 th_action: "Action",
-                add_shop_title: " Register New Shop",
+                add_shop_title: "➕ Register New Shop",
                 add_shop_name: "Shop Name",
                 add_shop_province: "Province",
                 add_shop_price: "Approx. Price Range (THB)",
-                add_shop_map: " Google Maps Link / GPS Coordinates",
+                add_shop_map: "Google Maps Link / GPS Coordinates",
                 add_shop_phone: "Contact Phone",
                 add_shop_address: "Shop Address Details",
-                add_shop_image: " Upload Shop Image",
+                add_shop_image: "Upload Shop Image",
                 btn_add_shop: "➕ Add New Shop to System",
-                faq_title: "❓ Frequently Asked Questions (FAQ)",
+                faq_title: " FAQ",
                 faq_sub: "Answers & guidelines for using Termsook Local platform",
                 faq_q1: "Q1: How do I redeem my coupon at the local store?",
                 faq_a1: "Answer: Once you complete a quest and save the coupon, open 'My Coupons' and show the QR Code / Discount code for the merchant to scan or verify.",
@@ -868,7 +983,7 @@
                 faq_a4: "Answer: To prevent fake reviews, users must be signed in and have claimed at least one local quest coupon before leaving ratings and reviews.",
                 modal_quest_success: "Congratulations! Quest Completed",
                 modal_quest_sub: "Scan this QR code at the shop to get your discount",
-                btn_save_coupon_modal: "📥 Save Coupon to Account (+50 EXP)",
+                btn_save_coupon_modal: "Save Coupon to Account (+50 EXP)",
                 btn_close: "Close"
             }
         };
@@ -1002,7 +1117,7 @@
             }
 
             Swal.fire({
-                title: currentLang === 'th' ? ' กำลังระบุตำแหน่งของคุณ...' : ' Locating your position...',
+                title: currentLang === 'th' ? 'กำลังระบุตำแหน่งของคุณ...' : 'Locating your position...',
                 allowOutsideClick: false,
                 didOpen: () => { Swal.showLoading(); }
             });
@@ -1019,7 +1134,7 @@
                         iconSize: [18, 18],
                         iconAnchor: [9, 9]
                     })
-                }).addTo(map).bindPopup("<b>📍 Your Current Location</b>").openPopup();
+                }).addTo(map).bindPopup("<b> Your Current Location</b>").openPopup();
 
                 map.flyTo(userCoords, 11, { duration: 1.5 });
                 Swal.fire({ icon: 'success', title: currentLang === 'th' ? 'พบตำแหน่งของคุณแล้ว!' : 'Location Found!', timer: 1500, showConfirmButton: false });
@@ -1043,7 +1158,7 @@
             return R * c;
         }
 
-        // 📍 1. ฟังก์ชัน GPS Check-in (รัศมีภายใน 100 เมตร)
+        // GPS Check-in
         window.checkInShop = function(shopId, shopName, shopLat, shopLng) {
             const user = auth.currentUser;
             if (!user) {
@@ -1055,14 +1170,14 @@
                 return;
             }
 
-            Swal.fire({ title: ' กำลังตรวจสอบพิกัด GPS หน้าร้าน...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({ title: 'กำลังตรวจสอบพิกัด GPS หน้าร้าน...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const uLat = pos.coords.latitude;
                 const uLng = pos.coords.longitude;
-                const dist = calculateDistance(uLat, uLng, shopLat, shopLng); // หน่วยกิโลเมตร
+                const dist = calculateDistance(uLat, uLng, shopLat, shopLng);
 
-                if (dist <= 0.1) { // ภายใน 100 เมตร (0.1 กม.)
+                if (dist <= 0.1) {
                     try {
                         await addDoc(collection(db, "checkins"), {
                             userId: user.uid,
@@ -1072,7 +1187,7 @@
                         });
                         Swal.fire({
                             icon: 'success',
-                            title: ' เช็คอินหน้าร้านสำเร็จ!',
+                            title: 'เช็คอินหน้าร้านสำเร็จ!',
                             text: `คุณอยู่ห่างจากร้าน ${Math.round(dist * 1000)} เมตร รับไปเลย +50 EXP หน้าร้าน!`
                         });
                         loadUserCoupons(user.uid);
@@ -1082,7 +1197,7 @@
                 } else {
                     Swal.fire({
                         icon: 'error',
-                        title: ' อยู่ไกลจากร้านเกินไป',
+                        title: 'อยู่ไกลจากร้านเกินไป',
                         text: `คุณอยู่ห่างจากร้าน ${Math.round(dist * 1000)} เมตร (ต้องอยู่ภายใน 100 เมตรจึงจะเช็คอินได้)`
                     });
                 }
@@ -1122,9 +1237,9 @@
                     title: '👤 My Account',
                     html: `
                         <div style="text-align:left; font-size:14px; line-height:1.8;">
-                            <p><strong> Email:</strong> ${user.email}</p>
-                            <p><strong> Role:</strong> <span style="color:var(--primary); font-weight:600;">${roleText}</span></p>
-                            <p><strong> User ID:</strong> <span style="font-size:12px; color:#94a3b8;">${user.uid}</span></p>
+                            <p><strong>Email:</strong> ${user.email}</p>
+                            <p><strong>Role:</strong> <span style="color:var(--primary); font-weight:600;">${roleText}</span></p>
+                            <p><strong>User ID:</strong> <span style="font-size:12px; color:#94a3b8;">${user.uid}</span></p>
                         </div>
                     `,
                     confirmButtonText: 'OK'
@@ -1139,6 +1254,8 @@
             const userEmailDisplay = document.getElementById('userEmailDisplay');
             const savedTripsSection = document.getElementById('savedTripsSection');
             const sectionCoupons = document.getElementById('section-coupons');
+            const sectionQuests = document.getElementById('section-quests');
+            const navQuestsItem = document.getElementById('nav-quests-item');
             const navCoupons = document.getElementById('nav-coupons');
             const navMerchant = document.getElementById('nav-merchant');
 
@@ -1146,7 +1263,9 @@
                 authLinkBtn.style.display = 'none';
                 savedTripsSection.style.display = 'block';
                 sectionCoupons.style.display = 'block';
+                sectionQuests.style.display = 'block';
                 navCoupons.style.display = 'inline-block';
+                navQuestsItem.style.display = 'inline-block';
 
                 try {
                     const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -1188,7 +1307,7 @@
                                 </button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item danger" onclick="handleLogout()">
-                                     Sign Out
+                                    Sign Out
                                 </button>
                             </div>
                         </div>
@@ -1202,89 +1321,168 @@
                 authLinkBtn.style.display = 'inline-block';
                 const profileContainer = document.getElementById('userDropdownContainer');
                 if (profileContainer) profileContainer.remove();
+                
                 merchantSection.style.display = 'none';
                 savedTripsSection.style.display = 'none';
                 sectionCoupons.style.display = 'none';
+                sectionQuests.style.display = 'none';
                 navCoupons.style.display = 'none';
+                navQuestsItem.style.display = 'none';
                 navMerchant.style.display = 'none';
             }
 
             renderUI();
         });
 
-// 🤖 Smart Local Trip Generator (ระบบจัดทริปอัจฉริยะภายในตัว ไม่ต้องพึ่งภายนอก)
-document.getElementById('btnGenerateTrip').addEventListener('click', () => {
-    const province = document.getElementById('tripProvince').value;
-    const style = document.getElementById('tripStyle').value;
+        // บันทึกคำแนะนำร้านค้าใหม่
+        document.getElementById('recommendShopForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
 
-    Swal.fire({
-        title: ' ระบบกำลังวิเคราะห์พิกัดและร้านค้า...',
-        text: 'กำลังจัดลำดับแผนทริปท่องเที่ยวที่ดีที่สุดให้คุณ',
-        allowOutsideClick: false,
-        didOpen: () => { Swal.showLoading(); }
-    });
+            const recShopName = document.getElementById('recShopName').value.trim();
+            const recProvince = document.getElementById('recProvince').value;
+            const recMapUrl = document.getElementById('recMapUrl').value.trim();
+            const recReason = document.getElementById('recReason').value.trim();
 
-    setTimeout(() => {
-        const dataSource = allShopsData.length > 0 ? allShopsData : mockShops;
-        let matchedShops = dataSource.filter(s => s.province === province);
-        if (matchedShops.length === 0) matchedShops = dataSource;
+            if (!recShopName || !recReason) {
+                Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณากรอกชื่อร้านค้าและเหตุผลที่แนะนำ' });
+                return;
+            }
 
-        const refLat = userCoords ? userCoords[0] : (provinceCoords[province] ? provinceCoords[province][0] : 7.1988);
-        const refLng = userCoords ? userCoords[1] : (provinceCoords[province] ? provinceCoords[province][1] : 100.5951);
+            Swal.fire({ title: 'กำลังบันทึกข้อมูล...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-        matchedShops = matchedShops.map(s => {
-            const sLat = s.lat || refLat;
-            const sLng = s.lng || refLng;
-            const dist = calculateDistance(refLat, refLng, sLat, sLng);
-            return { ...s, dist };
+            try {
+                await addDoc(collection(db, "recommended_shops"), {
+                    shopName: recShopName,
+                    province: recProvince,
+                    mapUrl: recMapUrl || "-",
+                    reason: recReason,
+                    submittedBy: user ? user.email : "anonymous",
+                    userId: user ? user.uid : null,
+                    status: "pending",
+                    createdAt: serverTimestamp()
+                });
+
+                Swal.fire({
+                    icon: 'success',
+                    title: currentLang === 'th' ? 'ส่งข้อมูลแนะนำเรียบร้อย!' : 'Recommendation Submitted!',
+                    text: currentLang === 'th' ? 'ขอบคุณสำหรับการแนะนำร้านค้าชุมชน ข้อมูลของคุณถูกบันทึกเรียบร้อยครับ' : 'Thank you for recommending a local shop!'
+                });
+
+                document.getElementById('recommendShopForm').reset();
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
+            }
         });
 
-        matchedShops.sort((a, b) => a.dist - b.dist);
+        // ดึงข้อมูล Realtime ร้านค้าที่ได้รับการแนะนำ
+        onSnapshot(collection(db, "recommended_shops"), (snapshot) => {
+            const listContainer = document.getElementById('recommendedShopsList');
+            if (snapshot.empty) {
+                listContainer.innerHTML = `<p style="color:var(--text-sub); font-size:13px;">ยังไม่มีข้อมูลร้านค้าที่ได้รับการแนะนำในขณะนี้</p>`;
+                return;
+            }
 
-        const timeSlots = ["08:30 น.", "11:30 น.", "14:30 น.", "18:00 น."];
-        const dynamicTimeline = [];
+            let html = "";
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const mapLinkHtml = data.mapUrl && data.mapUrl.startsWith('http')
+                    ? `<a href="${data.mapUrl}" target="_blank" style="color:#3b82f6; font-size:12px; font-weight:600; text-decoration:none; display:inline-block; margin-top:6px;">🗺️ ดูพิกัดใน Google Maps</a>`
+                    : `<span style="font-size:12px; color:var(--text-sub); display:inline-block; margin-top:6px;">📍 พิกัด: ${data.mapUrl || '-'}</span>`;
 
-        const stylePrefixes = {
-            food: ["เช้า: จิบชาชักและทานอาหารพื้นถิ่น ณ", "เที่ยง: จัดเต็มมื้อเที่ยงเมนูเด็ด ณ", "บ่าย: แวะคาเฟ่และชิมขนมท้องถิ่น ณ", "ค่ำ: ลิ้มรสสตรีทฟู้ดหรอยแรง ณ"],
-            photo: ["เช้า: ถ่ายรูปเช็คอินสถาปัตยกรรมสวยๆ ณ", "เที่ยง: แวะพักผ่อนถ่ายรูปมุมฮิต ณ", "บ่าย: ชมวิวธรรมชาติสุด Unseen ณ", "ค่ำ: เก็บภาพบรรยากาศยามเย็นสุดฟิน ณ"],
-            otop: ["เช้า: เยี่ยมชมศูนย์หัตถกรรมชุมชน ณ", "เที่ยง: อุดหนุนผลิตภัณฑ์พื้นบ้าน ณ", "บ่าย: เลือกซื้อของฝาก OTOP แปรรูป ณ", "ค่ำ: เดินชมวิถีชุมชนท้องถิ่น ณ"]
-        };
-
-        const prefixes = stylePrefixes[style] || stylePrefixes.food;
-
-        for (let i = 0; i < Math.min(4, matchedShops.length); i++) {
-            const shop = matchedShops[i];
-            const distanceInfo = userCoords ? ` (ห่างจากคุณ ${shop.dist.toFixed(1)} กม.)` : '';
-            dynamicTimeline.push({
-                time: timeSlots[i],
-                title: `${prefixes[i]} "${shop.shopName}" ${distanceInfo}`
+                html += `
+                    <div style="background:var(--input-bg); border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <span class="badge" style="margin-bottom:0;">${data.province || 'ภาคใต้'}</span>
+                                <span style="font-size:11px; color:var(--text-sub);">โดย: ${data.submittedBy ? data.submittedBy.split('@')[0] : 'นักท่องเที่ยว'}</span>
+                            </div>
+                            <strong style="font-size:15px; color:var(--text-main); display:block; margin-bottom:4px;">${data.shopName}</strong>
+                            <p style="font-size:13px; color:var(--text-sub); line-height:1.5;">"${data.reason}"</p>
+                        </div>
+                        <div>
+                            ${mapLinkHtml}
+                        </div>
+                    </div>
+                `;
             });
-        }
-
-        currentGeneratedTrip = { province: province, style: style, timeline: dynamicTimeline };
-
-        let html = "";
-        dynamicTimeline.forEach(p => {
-            html += `
-                <div class="trip-item">
-                    <span class="time-badge"> ${p.time}</span>
-                    <div style="font-size:14px; color:var(--text-main); font-weight:500;">${p.title}</div>
-                </div>
-            `;
+            listContainer.innerHTML = html;
         });
 
-        document.getElementById('tripTimeline').innerHTML = html;
-        document.getElementById('tripResult').style.display = 'block';
-        
-        Swal.close();
-        Swal.fire({
-            icon: 'success',
-            title: 'จัดแผนทริปสำเร็จ!',
-            timer: 1500,
-            showConfirmButton: false
+        // AI Trip Generator
+        document.getElementById('btnGenerateTrip').addEventListener('click', () => {
+            const province = document.getElementById('tripProvince').value;
+            const style = document.getElementById('tripStyle').value;
+
+            Swal.fire({
+                title: 'ระบบกำลังวิเคราะห์พิกัดและร้านค้า...',
+                text: 'กำลังจัดลำดับแผนทริปท่องเที่ยวที่ดีที่สุดให้คุณ',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            setTimeout(() => {
+                const dataSource = allShopsData.length > 0 ? allShopsData : mockShops;
+                let matchedShops = dataSource.filter(s => s.province === province);
+                if (matchedShops.length === 0) matchedShops = dataSource;
+
+                const refLat = userCoords ? userCoords[0] : (provinceCoords[province] ? provinceCoords[province][0] : 7.1988);
+                const refLng = userCoords ? userCoords[1] : (provinceCoords[province] ? provinceCoords[province][1] : 100.5951);
+
+                matchedShops = matchedShops.map(s => {
+                    const sLat = s.lat || refLat;
+                    const sLng = s.lng || refLng;
+                    const dist = calculateDistance(refLat, refLng, sLat, sLng);
+                    return { ...s, dist };
+                });
+
+                matchedShops.sort((a, b) => a.dist - b.dist);
+
+                const timeSlots = ["08:30 น.", "11:30 น.", "14:30 น.", "18:00 น."];
+                const dynamicTimeline = [];
+
+                const stylePrefixes = {
+                    food: ["เช้า: จิบชาชักและทานอาหารพื้นถิ่น ณ", "เที่ยง: จัดเต็มมื้อเที่ยงเมนูเด็ด ณ", "บ่าย: แวะคาเฟ่และชิมขนมท้องถิ่น ณ", "ค่ำ: ลิ้มรสสตรีทฟู้ดหรอยแรง ณ"],
+                    photo: ["เช้า: ถ่ายรูปเช็คอินสถาปัตยกรรมสวยๆ ณ", "เที่ยง: แวะพักผ่อนถ่ายรูปมุมฮิต ณ", "บ่าย: ชมวิวธรรมชาติสุด Unseen ณ", "ค่ำ: เก็บภาพบรรยากาศยามเย็นสุดฟิน ณ"],
+                    otop: ["เช้า: เยี่ยมชมศูนย์หัตถกรรมชุมชน ณ", "เที่ยง: อุดหนุนผลิตภัณฑ์พื้นบ้าน ณ", "บ่าย: เลือกซื้อของฝาก OTOP แปรรูป ณ", "ค่ำ: เดินชมวิถีชุมชนท้องถิ่น ณ"]
+                };
+
+                const prefixes = stylePrefixes[style] || stylePrefixes.food;
+
+                for (let i = 0; i < Math.min(4, matchedShops.length); i++) {
+                    const shop = matchedShops[i];
+                    const distanceInfo = userCoords ? ` (ห่างจากคุณ ${shop.dist.toFixed(1)} กม.)` : '';
+                    dynamicTimeline.push({
+                        time: timeSlots[i],
+                        title: `${prefixes[i]} "${shop.shopName}" ${distanceInfo}`
+                    });
+                }
+
+                currentGeneratedTrip = { province: province, style: style, timeline: dynamicTimeline };
+
+                let html = "";
+                dynamicTimeline.forEach(p => {
+                    html += `
+                        <div class="trip-item">
+                            <span class="time-badge">${p.time}</span>
+                            <div style="font-size:14px; color:var(--text-main); font-weight:500;">${p.title}</div>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('tripTimeline').innerHTML = html;
+                document.getElementById('tripResult').style.display = 'block';
+                
+                Swal.close();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'จัดแผนทริปสำเร็จ!',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }, 600);
         });
-    }, 600);
-});
+
         document.getElementById('btnSaveTrip').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) { Swal.fire({ icon: 'warning', title: 'Please Sign In' }); return; }
@@ -1308,8 +1506,8 @@ document.getElementById('btnGenerateTrip').addEventListener('click', () => {
                     const data = docSnap.data();
                     html += `
                         <div style="background:var(--input-bg); border:1px solid var(--border); border-radius:12px; padding:15px; margin-bottom:12px;">
-                            <div style="font-size:14px; font-weight:600; color:var(--primary); margin-bottom:8px;"> ทริปจังหวัด ${data.province}</div>
-                            ${data.timeline.map(t => `<div style="font-size:13px; color:var(--text-sub); margin-bottom:4px;"> ${t.time} —${t.title}</div>`).join('')}
+                            <div style="font-size:14px; font-weight:600; color:var(--primary); margin-bottom:8px;">ทริปจังหวัด ${data.province}</div>
+                            ${data.timeline.map(t => `<div style="font-size:13px; color:var(--text-sub); margin-bottom:4px;">${t.time} —${t.title}</div>`).join('')}
                         </div>
                     `;
                 });
@@ -1368,14 +1566,14 @@ document.getElementById('btnGenerateTrip').addEventListener('click', () => {
         }
 
         function updateUserLevelAndBadges(exp, couponCodes) {
-            let levelTitle = " นักเดินทางมือใหม่ (Level 1)";
+            let levelTitle = "นักเดินทางมือใหม่ (Level 1)";
             let maxExp = 100;
             
             if (exp >= 300) {
-                levelTitle = " เซียนท่องเที่ยวชุมชน (Level 3)";
+                levelTitle = "เซียนท่องเที่ยวชุมชน (Level 3)";
                 maxExp = 300;
             } else if (exp >= 100) {
-                levelTitle = " นักตะลุยเมืองใต้ (Level 2)";
+                levelTitle = "นักตะลุยเมืองใต้ (Level 2)";
                 maxExp = 300;
             }
 
